@@ -38,6 +38,61 @@ from reportlab.lib.units import inch
 from reportlab.lib.utils import ImageReader
 import tempfile
 import os
+# Dark / Light Mode Toggle
+st.sidebar.title("Display Settings")
+
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = False
+
+if st.sidebar.button(
+    "☀️ Switch to Light Mode"
+    if st.session_state.dark_mode
+    else "🌙 Switch to Dark Mode"
+):
+    st.session_state.dark_mode = not st.session_state.dark_mode
+
+if st.session_state.dark_mode:
+    st.markdown("""
+        <style>
+        .stApp {
+            background-color: #1e1e2f;
+            color: #f5f5f5;
+        }
+        [data-testid="stSidebar"] {
+            background-color: #292940;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    import pandas as pd
+
+st.title("🧪 Virtual Molecular Lab")
+st.subheader("Molecular Properties")
+
+st.write(
+    "Compare molecular formulas, molecular weights, "
+    "hydrogen-bond donors, and acceptors."
+)
+
+# Sample Data for the Molecular Chart
+data = {
+    "Molecule": ["Water", "Ethanol", "Glucose", "Aspirin", "Caffeine"],
+    "Formula": ["H2O", "C2H5OH", "C6H12O6", "C9H8O4", "C8H10N4O2"],
+    "Molecular Weight (g/mol)": [18.015, 46.07, 180.16, 180.16, 194.19]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Display data table
+st.dataframe(df, use_container_width=True)
+
+# Generate bar chart
+st.bar_chart(
+    df.set_index("Molecule"),
+    y="Molecular Weight (g/mol)"
+)
+
+st.caption("Molecular weights are approximate values in g/mol.")
 
 
 # ============================================================
@@ -1673,10 +1728,10 @@ if page == "🏠 Home":
     st.divider()
 
     st.markdown("### 👨‍🏫 Developed by")
-    st.markdown("**Dr. R. Subramanian**")
-    st.markdown("Assistant Professor  ")
-    st.markdown("Division of Chemistry, School of Sciences  ")
-    st.markdown("Faculty of Engineering and Technology  ")
+    st.markdown("**Kamalika L**")
+    st.markdown("Student")
+    st.markdown("Division of Cybersecurity, School of ComputerScience")
+    st.markdown("Student of Engineering and Technology  ")
     st.markdown("SRM Institute of Science and Technology, Tiruchirappalli")
 
     st.info("📧 **For queries, contact:** rsmani84@gmail.com")
